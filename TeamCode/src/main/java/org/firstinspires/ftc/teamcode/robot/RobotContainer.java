@@ -1,64 +1,42 @@
 package org.firstinspires.ftc.teamcode.robot;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
-import org.firstinspires.ftc.teamcode.core.lib.builders.DrivetrainBuilder;
 import org.firstinspires.ftc.teamcode.core.lib.gamepad.SmartGamepad;
-import org.firstinspires.ftc.teamcode.core.lib.gamepad.Trigger;
 import org.firstinspires.ftc.teamcode.core.lib.internal.RobotContainerInternal;
-import org.firstinspires.ftc.teamcode.robot.subsystems.SubsystemExample;
+import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.robot.subsystems.Intake;
 
-/**
- * RobotContainer class handle instance configurations. All the subsystems listed in constructor
- * here will be execute when the library classes run.
- */
+/** Central robot container responsible for subsystem and control management. */
 public class RobotContainer extends RobotContainerInternal {
-
   private final SmartGamepad driver;
   private final SmartGamepad operator;
 
-  private final SubsystemExample subsystemExample;
-  private final DrivetrainBuilder drivetrain;
+  private final Drivetrain drivetrain;
 
-  public RobotContainer(Gamepad driver, Gamepad operator) {
-    super(
-        DrivetrainBuilder.getInstance(), SubsystemExample.getInstance()
-        // Add more subsystems here.
-        );
+  private final Intake intake;
 
-    this.driver = new SmartGamepad(driver);
-    this.operator = new SmartGamepad(operator);
+  public RobotContainer(Gamepad driverGamepad, Gamepad operatorGamepad) {
+    super(Drivetrain.getInstance(),Intake.getInstance());
 
-    drivetrain =
-        DrivetrainBuilder.build(
-            Constants.DrivetrainBuilderConstants.MOTOR_RIGHT,
-            Constants.DrivetrainBuilderConstants.MOTOR_LEFT,
-            Constants.DrivetrainBuilderConstants.MOTOR_RIGHT_INVERTED,
-            Constants.DrivetrainBuilderConstants.MOTOR_LEFT_INVERTED);
-    subsystemExample = SubsystemExample.getInstance();
-    // You need to add the subsystems here too.
+    this.driver = new SmartGamepad(driverGamepad);
+    this.operator = new SmartGamepad(operatorGamepad);
+
+    drivetrain = Drivetrain.getInstance();
+    intake = Intake.getInstance();
   }
 
   @Override
   public void configureBindings() {
 
-    // Driver controller
+    // XDrive Controls
     driver
         .leftY()
+        .or(driver.leftX())
         .or(driver.rightX())
-        .whileTrue(() -> drivetrain.arcadeDrive(-driver.getLeftY(), driver.getRightX()))
+        .whileTrue(
+            () -> drivetrain.drive(-driver.getLeftY(), -driver.getLeftX(), -driver.getRightX()))
         .onFalse(drivetrain::stop);
 
-    // Operator controller
-    operator.y().onTrue(() -> subsystemExample.setTargetAngle(90));
-
-    operator.a().onTrue(() -> subsystemExample.setTargetAngle(0));
-
-    new Trigger(subsystemExample::isLimitLeft).onTrue(subsystemExample::resetEncoders);
-
-    new Trigger(subsystemExample::isLimitRight).onTrue(subsystemExample::resetEncoders);
-
-    operator.start().and(operator.back()).onTrue(subsystemExample::resetEncoders);
-
-    operator.y().negate().and(operator.a().negate()).onTrue(() -> subsystemExample.setPower(0));
+    driver.x().onTrue(intake::activate).onFalse(intake::deactivate);
   }
 }
