@@ -1,85 +1,12 @@
-![logoTeamBrazil](https://github.com/user-attachments/assets/e4eb1ff4-9f25-475e-837c-5bbe0f090740)
-
-[![Static Badge](https://img.shields.io/badge/pt_br-readme-green)](doc/pt-br/README.md)
-
-# First Global Challenge Java Library
-The First Global Challenge Java Library (FGCLib) is a Java code library,
-that uses the standard First Tech Challenge (FTC) SDK as its code base, while adding many new features and a new
-new features and a new code structure.
-
-This library was developed and is maintained by the FGC Team Brazil. The aim of the library is to facilitate
-the creation of code for FGC teams, using an organized, flexible and easily understandable structure.
-Among the library's features are:
-- **SDK FTC**: FGCLib uses the structure provided by first as the code base, i.e. the SDK used by the
-  FTC is included in the lib by default;
-- **Dynamic Structure**: FGCLib's code structure is robust and intuitive, it has been designed to
-  be easily implemented and its structure helps to keep the code more readable and organized;
-- **Embedded PIDF**: The library also has an integrated PIDF controller,
-  there is no need to create it manually;
-- **FTCDashboard**: Lib also has support for the use of FTCDashboard (currently it is not
-  currently in use, but if your team wants to use it, just follow the tutorial
-[Migrating to FTCDashboard](doc/en/Migrating%20to%20FTCDashboard.md))
-- **DrivetrainBuilder**: FGCLib has a helper class that automates the creation of
-  a drivetrain tank.
-
-FGCLib has complete documentation on how to use it. In the README, you can find our
-written documentation, as well as explanatory videos with step-by-step guides on how to use the library.
-
-# Table of Contents
-- [First Global Challenge Java Library](#first-global-challenge-java-library)
-- [Installation](#installation)
-  - [Download Code .zip](#downloading-zip)
-  - [Cloning Repository](#cloning-the-repository)
-- [Documentation](#documentation)
-- [Contribution](#contribution)
-- [Contact](#contact)
-
-# Installation
-## Downloading ZIP
-On the repository home page, click on the Code button, then click on Download ZIP to download the
-.zip file. 
-
-![githubCodeButton](https://github.com/user-attachments/assets/685db7c3-917a-4f88-bfdc-51318c22e651)
-
-After installation, simply extract the code from the file and open it in an IDE of your choice.
-
-## Cloning the Repository
-Create a folder that will store the code. Then open the folder in your terminal and run the command:
-
-    git clone https://github.com/FGC-Team-Brazil/FGCLib.git
-
-Once the command is complete, the library code will already be on your computer. All you have to do is open it
-in your IDE.
-
-
-# Documentation
-All the library's features are documented in this repository. Access the documentation via
-the link below:
-
-[Documentation First Global Challenge Java Library](doc/en/1%20-%20Introduction%20to%20FGCLib.md)
-- [Introduction to FGCLib](doc/en/1%20-%20Introduction%20to%20FGCLib.md)
-- [Creating a subsystem](doc/en/2%20-%20Creating%20a%20Subsystem.md)
-- [Using the DrivetrainBuilder](doc/en/3%20-%20Using%20the%20DrivetrainBuilder.md)
-- [PIDF Controller](doc/en/5%20-%20Using%20the%20PIDF%20Controller.md)
-- [Using the SmartGamePad](doc/en/4%20-%20Utility%20Class%20SmartGamePad.md)
-
-# Contribution
-Contribute to the evolution of the project!
-You can help the library grow through pull requests or github issues. What's more,
-if you feel the need, you can contact us through our [Social Networks](#contact).
-
-# Contact
-For any questions or further information, please contact our [email](mailto:fgc.team.br@gmail.com).
-=======
 ## NOTICE
 
-This repository contains the public FTC SDK for the DECODE (2025-2026) competition season.
+This repository contains the public FTC SDK for the BIOBUZZ (2026-2027) competition season.
 
 ## Welcome!
 This GitHub repository contains the source code that is used to build an Android app to control a *FIRST* Tech Challenge competition robot.  To use this SDK, download/clone the entire project to your local computer.
 
 ## Requirements
-To use this Android Studio project, you will need Android Studio Ladybug (2024.2) or later.
+To use this Android Studio project, you will need Android Studio Narwhal 3 Feature Drop or later.
 
 To program your robot in Blocks or OnBot Java, you do not need Android Studio.
 
@@ -131,6 +58,90 @@ Samples Folder: &nbsp;&nbsp; [/FtcRobotController/src/main/java/org/firstinspire
 The readme.md file located in the [/TeamCode/src/main/java/org/firstinspires/ftc/teamcode](TeamCode/src/main/java/org/firstinspires/ftc/teamcode) folder contains an explanation of the sample naming convention, and instructions on how to copy them to your own project space.
 
 # Release Information
+
+## Version 12.0 (20260907-090034)
+
+### Breaking Changes
+* The new AprilTag Cluster capability breaks legacy AprilTag OpModes resulting in compile errors for software that uses AprilTagDetection objects in both Android Studio and OnBot Java.
+  * Legacy AprilTag OpModes must be updated to check whether the returned AprilTag is a cluster or singleton,
+     and cast the returned detection into the correct type to access its elements.  See below:    
+     
+	 **Old method for AprilTag processing**
+    ```
+     for (AprilTagDetection detection : currentDetections) {
+       // Do single Tag processing here  
+     }
+    ```
+
+     **New method for AprilTag Singleton/Cluster processing**
+
+    ```
+     for (AprilTagDetection detection : currentDetections) {
+       if (detection instanceof AprilTagSingleDetection) {
+         AprilTagSingleDetection singleDet = (AprilTagSingleDetection) detection;
+         // Do single Tag processing here  
+       } else {
+         AprilTagClusterDetection clusterDet = (AprilTagClusterDetection) detection;
+         // Do cluster Tag processing here  
+       }
+     }
+     ```
+    For more information about how to update your OpModes to fix the breaking change see: https://ftc-docs.firstinspires.org/apriltag-clusters
+    
+  * About AprilTag clusters:  
+    * Clusters are co-planar groups of two or more AprilTags wherein the position of each member tag is defined relative to a common origin
+    * This origin may be placed outside the bounds of the tags themselves to provide a more suitable "aiming" target
+    * Clusters are resilient to partial occlusion. Full 6DOF pose can be estimated from a cluster even if only a single member tag is visible. Of course, the more tags that are visible, the better and more stable the pose estimate will be
+    * All AprilTag samples have been updated to differentiate between standalone tags and clusters
+  
+### Enhancements
+* Adds a tree view for robot configurations [issue 1821](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/1821)
+* Gamepad indicators on the Driver Station are now colored orange if the respective gamepads are connected to the Android generic gamepad driver instead of the Driver Station's usermode USB driver 
+* Updated AprilTag Library for BIOBUZZ. Notably, getCurrentGameTagLibrary() now returns BIOBUZZ tags.
+  * In BIOBUZZ, the Origin of each cluster is located in the center of the Cell opening for easy aiming.
+  * The Origin X,Y & Z Axes are now displayed by default on the preview image.
+  * <B>Unfortunately, since BIOBUZZ AprilTags move, they are not suitable for absolute Field Localization.</B>
+* Supports OctoQuad MK2 firmware v3.1.0, which adds diagnostics parameters for the IMU and MCU uptime
+
+### Bug Fixes
+* Fixes issue [2078](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/2078) where battery
+voltage was not updated on driver station if OpMode did not send any telemetry.
+
+## Version 11.2.1 (20260724-093406)
+
+### Bug Fixes
+* Fixes issue [2099](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/2099). Gradle and the AGP are now updated to 9.1 and 8.13.2 respectively.
+ 
+## Version 11.2 (20260707-102819)
+
+### Breaking Changes
+* Gradle is upgraded to v9.1 and the Android Gradle Plugin is updated to v8.13.2.  AGP v8.13.2 requires Android Studio Narwhal 3 Feature Drop or later.  Earlier versions of Android Studio will fail to sync the project.  Older versions of Android Studio may prompt the user to downgrade AGP.  Do not do this.  Gradle v9.1 removed support for features that older versions of the AGP use. Updating Gradle fixes a Windows 11 problem some teams may encounter if they have agressive security software installed on their machine.  For more context see [this Gradle issue](https://github.com/gradle/gradle/issues/31438)
+
+### Enhancements
+* New type of OpMode is now available. (`@Utility`)
+   * Utility opmodes that are not disabled will show up in the Utility menu (requires 11.2 or later DS and RC) 
+* TestHardware Utility now available
+  * It allows you to test all servos, CR servos, motors, Color sensors, distance sensors, touch sensors, IMUs, webcams, and analog sensors in the config
+* TestGamepad Utility now available
+  * It allows you to see the results of your two gamepads to make sure it is what you expect and find problems with your gamepads. 
+* Adds methods to PwmControl interface to allow you to setPulseWidth and getPulseWidth 
+   * Both of these are in microseconds (uSeconds)
+   * This is an ADVANCED feature.   There is not a supporting sample.
+   * NOTE: You may see a slight difference since the hardware is not accurate to the microsecond
+* Adds ability to set UVC camera "quirks" from user code to control compatibility flags used inside the low level UVC driver. Addresses issue [1428](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/1428)
+* Changes Apriltag Axis Display order on camera preview screen, to reflect updated Z axis direction.
+* The Driver Station app init button has a light teal background with the word init if
+   * the driver station and robot controller are connected and have the same team number
+   * there is at least one gamepad attached
+   * the timer is enabled (for an Autonomous OpMode)
+
+### Bug Fixes
+* Fixes issue [1949](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/1949) overwriting the group with the default group when registering a OpMode with OpModeManager.register(OpModeMeta name, Class<? extends OpMode> clazz)
+* Fixes issue mentioned in [1890](https://github.com/FIRST-Tech-Challenge/FtcRobotController/issues/1890) where if 
+  for a servo you change the direction or scaleRange and send the same setPosition that was sent 
+  before, then it wouldn't update the servo.
+* Fixes an issue where Self-Inspect doesn't flag a driver station using -RC in it's name. The message is now:
+  * The team numbers in the robot controller and driver station names do not match, or a device name is invalid. Refer to the FTC Competition Manual for device naming rules.
 
 ## Version 11.1 (20251231-104637)
 
@@ -205,6 +216,7 @@ The readme.md file located in the [/TeamCode/src/main/java/org/firstinspires/ftc
   to rename the file, the rename will fail.
 
 ### Enhancements
+* Adds a configuration item for a Full Range Servo.  Selecting this item expands the pulse width range from 500us to 2500us.  For comparison, the legacy Servo type defines the pulse width range as 600us to 2400us.
 * Improved the OBJ new file creation flow workflow. The new flow allows you to easily use samples, craft new custom OpModes and make new Java classes.
 * Added support for gamepad edge detection.
   * A new sample program `ConceptGamepadEdgeDetection` demonstrates its use.

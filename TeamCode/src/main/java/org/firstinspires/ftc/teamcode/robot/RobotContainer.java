@@ -16,7 +16,7 @@ public class RobotContainer extends RobotContainerInternal {
   private final Intake intake;
 
   public RobotContainer(Gamepad driverGamepad, Gamepad operatorGamepad) {
-    super(Drivetrain.getInstance(),Intake.getInstance());
+    super(Drivetrain.getInstance(), Intake.getInstance());
 
     this.driver = new SmartGamepad(driverGamepad);
     this.operator = new SmartGamepad(operatorGamepad);
