@@ -12,7 +12,7 @@ apply from: '../build.dependencies.gradle'
 
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
-    buildToolsVersion '35.0.0'
+//    buildToolsVersion '35.0.0'
 
     packagingOptions {
         jniLibs {
@@ -35,7 +35,7 @@ repositories {
 spotless {
     java {
         target 'src/**/*.java'
-        googleJavaFormat('1.19.2')
+        googleJavaFormat('1.27.0')
         removeUnusedImports()
         trimTrailingWhitespace()
         endWithNewline()

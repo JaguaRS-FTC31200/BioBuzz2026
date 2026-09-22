@@ -12,8 +12,10 @@ import org.firstinspires.ftc.teamcode.core.lib.vision.apriltag.AprilTagDetection
 import org.firstinspires.ftc.teamcode.core.lib.vision.camera.CameraConfig;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagClusterDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection;
 
 /**
  * VisionSystem is the main vision subsystem of FGCLib.
@@ -323,7 +325,21 @@ public class VisionSystem implements Subsystem {
   private AprilTagDetection convertDetection(
       org.firstinspires.ftc.vision.apriltag.AprilTagDetection sdk) {
 
-    String name = sdk.metadata != null ? sdk.metadata.name : "unknown";
+    int id = -1;
+    String name = "unknown";
+    double cx = 0;
+    double cy = 0;
+
+    if (sdk instanceof AprilTagSingleDetection) {
+      AprilTagSingleDetection single = (AprilTagSingleDetection) sdk;
+      id = single.id;
+      name = single.metadata != null ? single.metadata.name : "unknown";
+      cx = single.center != null ? single.center.x : 0;
+      cy = single.center != null ? single.center.y : 0;
+    } else if (sdk instanceof AprilTagClusterDetection) {
+      AprilTagClusterDetection cluster = (AprilTagClusterDetection) sdk;
+      name = cluster.metadata != null ? cluster.metadata.name : "unknown";
+    }
 
     double x = 0, y = 0, z = 0, roll = 0, pitch = 0, yaw = 0;
     if (sdk.ftcPose != null) {
@@ -335,9 +351,6 @@ public class VisionSystem implements Subsystem {
       yaw = sdk.ftcPose.yaw;
     }
 
-    double cx = sdk.center != null ? sdk.center.x : 0;
-    double cy = sdk.center != null ? sdk.center.y : 0;
-
-    return new AprilTagDetection(sdk.id, name, x, y, z, roll, pitch, yaw, cx, cy, cameraTransform);
+    return new AprilTagDetection(id, name, x, y, z, roll, pitch, yaw, cx, cy, cameraTransform);
   }
 }
