@@ -31,4 +31,42 @@ public class Constants {
     public static final boolean IS_BACK_LEFT_INVERTED = true;
     public static final boolean IS_BACK_RIGHT_INVERTED = false;
   }
+
+  public static class Conveyor {
+
+    public static final String CONVEYOR_NAME = "conveyor_motor";
+  }
+
+    public static class Shooter {
+        public static final String MOTOR_1_NAME = "shooter_motor_1";
+        public static final boolean IS_INVERTED1 = false;
+
+        /**
+         * Velocidade alvo que o motor tentará alcançar (ticks/seg).
+         */
+        public static final int TARGET_VELOCITY = 1500;
+
+        /**
+         * Coeficientes de ajuste do controlador PID.
+         */
+        public static class PID {
+            /**
+             * (Proporcional) Reage à diferença de velocidade.
+             */
+            public static double kP = 0.005;
+            /**
+             * (Integral) Corrige erros de velocidade pequenos e persistentes.
+             */
+            public static double kI = 0;
+            /**
+             * (Derivativo) Evita oscilação de velocidade.
+             */
+            public static double kD = 0;
+            /**
+             * (Feedforward) Força base aplicada para atingir a velocidade alvo, antes mesmo de haver um erro.
+             */
+            public static double kF = 0.05;
+        }
+    }
+
 }

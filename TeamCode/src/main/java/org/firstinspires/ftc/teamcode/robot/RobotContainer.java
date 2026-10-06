@@ -5,6 +5,7 @@ import org.firstinspires.ftc.teamcode.core.lib.gamepad.SmartGamepad;
 import org.firstinspires.ftc.teamcode.core.lib.internal.RobotContainerInternal;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.robot.subsystems.Shooter;
 
 /** Central robot container responsible for subsystem and control management. */
 public class RobotContainer extends RobotContainerInternal {
@@ -15,14 +16,19 @@ public class RobotContainer extends RobotContainerInternal {
 
   private final Intake intake;
 
-  public RobotContainer(Gamepad driverGamepad, Gamepad operatorGamepad) {
-    super(Drivetrain.getInstance(), Intake.getInstance());
+  private final Shooter shooter;
+
+
+    public RobotContainer(Gamepad driverGamepad, Gamepad operatorGamepad) {
+    super(Drivetrain.getInstance(), Intake.getInstance(), Shooter.getInstance());
 
     this.driver = new SmartGamepad(driverGamepad);
     this.operator = new SmartGamepad(operatorGamepad);
 
     drivetrain = Drivetrain.getInstance();
     intake = Intake.getInstance();
+    shooter = Shooter.getInstance();
+
   }
 
   @Override
@@ -38,5 +44,9 @@ public class RobotContainer extends RobotContainerInternal {
         .onFalse(drivetrain::stop);
 
     driver.x().onTrue(intake::activate).onFalse(intake::deactivate);
+
+    // Shooter Controls
+    operator.rightTrigger().whileTrue(() -> shooter.spinUp()).onFalse(() -> shooter.stopShooter());
+
   }
 }
