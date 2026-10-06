@@ -18,8 +18,7 @@ public class RobotContainer extends RobotContainerInternal {
 
   private final Shooter shooter;
 
-
-    public RobotContainer(Gamepad driverGamepad, Gamepad operatorGamepad) {
+  public RobotContainer(Gamepad driverGamepad, Gamepad operatorGamepad) {
     super(Drivetrain.getInstance(), Intake.getInstance(), Shooter.getInstance());
 
     this.driver = new SmartGamepad(driverGamepad);
@@ -28,7 +27,6 @@ public class RobotContainer extends RobotContainerInternal {
     drivetrain = Drivetrain.getInstance();
     intake = Intake.getInstance();
     shooter = Shooter.getInstance();
-
   }
 
   @Override
@@ -46,7 +44,6 @@ public class RobotContainer extends RobotContainerInternal {
     driver.x().onTrue(intake::activate).onFalse(intake::deactivate);
 
     // Shooter Controls
-    operator.rightTrigger().whileTrue(() -> shooter.spinUp()).onFalse(() -> shooter.stopShooter());
-
+    operator.rightTrigger().whileTrue(shooter::spinUp).onFalse(shooter::stopShooter);
   }
 }
