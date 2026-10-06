@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.robot;
 
-import com.acmerobotics.dashboard.config.Config;
-
 /** Constantes centralizadas do robô. Geradas pelo FGCLib Studio. */
 public class Constants {
   /**
