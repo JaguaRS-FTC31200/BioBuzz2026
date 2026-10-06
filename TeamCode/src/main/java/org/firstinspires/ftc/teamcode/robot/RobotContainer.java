@@ -6,7 +6,6 @@ import org.firstinspires.ftc.teamcode.core.lib.internal.RobotContainerInternal;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Conveyor;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.robot.subsystems.Shooter;
 
 /** Central robot container responsible for subsystem and control management. */
 public class RobotContainer extends RobotContainerInternal {
@@ -18,7 +17,6 @@ public class RobotContainer extends RobotContainerInternal {
   private final Intake intake;
 
   private final Conveyor conveyor;
-  private final Shooter shooter;
 
   public RobotContainer(Gamepad driverGamepad, Gamepad operatorGamepad) {
     super(Drivetrain.getInstance(), Intake.getInstance(), Conveyor.getInstance());
@@ -29,7 +27,6 @@ public class RobotContainer extends RobotContainerInternal {
     drivetrain = Drivetrain.getInstance();
     intake = Intake.getInstance();
     conveyor = Conveyor.getInstance();
-    shooter = Shooter.getInstance();
   }
 
   @Override
@@ -46,24 +43,6 @@ public class RobotContainer extends RobotContainerInternal {
 
     // intake controls: X to turn on/off
     driver.x().onTrue(intake::activate).onFalse(intake::deactivate);
-
-    //Shooter
-      driver
-          .rightTrigger()
-          .and(driver.leftTrigger().negate())
-          .whileTrue(
-              () -> {
-                shooter.startMotor();
-                shooter.speedUp();
-              });
-      driver
-          .leftTrigger()
-          .and(driver.leftTrigger().negate())
-          .whileTrue(
-              () -> {
-                shooter.startMotor();
-                shooter.slowDown();
-              });
 
 
     // Conveyor controls Bumper left to let ball off; Bumber right to Take balls in.
