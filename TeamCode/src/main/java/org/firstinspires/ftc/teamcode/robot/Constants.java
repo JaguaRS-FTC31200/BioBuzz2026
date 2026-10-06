@@ -32,9 +32,12 @@ public class Constants {
     public static final boolean IS_BACK_RIGHT_INVERTED = false;
   }
 
-  public static class Conveyor{
+  public static class Conveyor {
 
     public static final String CONVEYOR_NAME = "conveyor_motor";
+  }
 
+  public static class Shooter{
+    public static final String SHOOTER_MOTOR_NAME = "shooter_motor";
   }
 }
