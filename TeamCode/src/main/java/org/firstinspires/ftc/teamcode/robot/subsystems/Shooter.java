@@ -8,11 +8,10 @@ import org.firstinspires.ftc.teamcode.robot.Constants;
 public class Shooter implements Subsystem {
     private static Shooter instance;
     public DcMotor shooterMotor;
-    private int motorDirection = -1;
+    private int motorSpeed = 0;
     @Override
     public void initialize(HardwareMap hardwareMap) {
         shooterMotor = hardwareMap.get(DcMotor.class, Constants.Shooter.SHOOTER_MOTOR_NAME);
-
     }
 
     @Override
@@ -32,14 +31,18 @@ public class Shooter implements Subsystem {
     }
 
     public void startMotor() {
-        shooterMotor.setPower(motorDirection);
+        shooterMotor.setPower(motorSpeed);
     }
 
     public void stopMotor() {
         shooterMotor.setPower(0);
     }
 
-    public void setDirection(int num) {
-        motorDirection = num;
+    public void speedUp() {
+        motorSpeed ++;
+    }
+
+    public void slowDown(){
+        motorSpeed --;
     }
 }
