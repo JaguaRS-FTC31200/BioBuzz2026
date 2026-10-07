@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.core.lib.interfaces.Subsystem;
+import org.firstinspires.ftc.teamcode.robot.Constants;
 
 public class Intake implements Subsystem {
   private static Intake instance;
@@ -12,7 +13,7 @@ public class Intake implements Subsystem {
   @Override
   public void initialize(HardwareMap hardwareMap) {
 
-    intake_motor = hardwareMap.get(DcMotor.class, "intake_motor");
+    intake_motor = hardwareMap.get(DcMotor.class, Constants.Intake.MOTOR_NAME);
     intake_motor.setDirection(DcMotorSimple.Direction.REVERSE);
   }
 
@@ -27,7 +28,7 @@ public class Intake implements Subsystem {
 
   public void activate() {
 
-    intake_motor.setPower(1);
+    intake_motor.setPower(Constants.Intake.INTAKE_SPEED);
   }
 
   public void deactivate() {

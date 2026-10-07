@@ -1,7 +1,15 @@
 package org.firstinspires.ftc.teamcode.robot;
 
+import com.acmerobotics.dashboard.config.Config;
+
 /** Constantes centralizadas do robô. Geradas pelo FGCLib Studio. */
 public class Constants {
+  @Config
+  public static class Intake{
+    public static final String MOTOR_NAME = "intake_motor";
+    public static double INTAKE_SPEED = 1;
+  }
+
   /**
    * Constantes do subsistema de exemplo. Você pode deletar esta classe se não estiver usando o
    * SubsystemExample.

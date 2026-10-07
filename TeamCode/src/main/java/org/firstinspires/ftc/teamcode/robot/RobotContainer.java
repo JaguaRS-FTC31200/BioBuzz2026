@@ -22,8 +22,11 @@ public class RobotContainer extends RobotContainerInternal {
   private final Conveyor conveyor;
 
   public RobotContainer(Gamepad driverGamepad, Gamepad operatorGamepad) {
-    super(Drivetrain.getInstance(), Intake.getInstance(), Shooter.getInstance());
-    super(Drivetrain.getInstance(), Intake.getInstance(), Conveyor.getInstance());
+    super(
+        Drivetrain.getInstance(),
+        Intake.getInstance(),
+        Shooter.getInstance(),
+        Conveyor.getInstance());
 
     this.driver = new SmartGamepad(driverGamepad);
     this.operator = new SmartGamepad(operatorGamepad);
@@ -50,8 +53,7 @@ public class RobotContainer extends RobotContainerInternal {
     driver.x().onTrue(intake::activate).onFalse(intake::deactivate);
 
     // Shooter Controls
-    operator.rightTrigger().whileTrue(shooter::spinUp).onFalse(shooter::stopShooter);
-
+    driver.rightTrigger().whileTrue(shooter::spinUp).onFalse(shooter::stopShooter);
 
     // Conveyor controls Bumper left to let ball off; Bumber right to Take balls in.
     driver
