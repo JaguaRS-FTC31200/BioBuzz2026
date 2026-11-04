@@ -5,7 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 /** Constantes centralizadas do robô. Geradas pelo FGCLib Studio. */
 public class Constants {
   @Config
-  public static class Intake{
+  public static class Intake {
     public static final String MOTOR_NAME = "intake_motor";
     public static double INTAKE_SPEED = 1;
   }
@@ -51,7 +51,7 @@ public class Constants {
     public static final boolean IS_INVERTED1 = false;
 
     /** Velocidade alvo que o motor tentará alcançar (ticks/seg). */
-    public static int TARGET_VELOCITY = 1500;
+    public static int TARGET_VELOCITY = 1250;
 
     /** Coeficientes de ajuste do controlador PID. */
     @Config
