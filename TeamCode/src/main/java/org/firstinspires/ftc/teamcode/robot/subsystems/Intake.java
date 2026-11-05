@@ -28,7 +28,7 @@ public class Intake implements Subsystem {
 
   public void activate(boolean reverse) {
 
-    intake_motor.setPower(reverse ? -Constants.Intake.INTAKE_SPEED : Constants.Intake.INTAKE_SPEED);
+    intake_motor.setPower(reverse ? -Constants.Intake.INTAKE_POWER : Constants.Intake.INTAKE_POWER);
   }
 
   public void deactivate() {

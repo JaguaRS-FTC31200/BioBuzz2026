@@ -7,7 +7,7 @@ public class Constants {
   @Config
   public static class Intake {
     public static final String MOTOR_NAME = "intake_motor";
-    public static double INTAKE_SPEED = 1;
+    public static double INTAKE_POWER = 0.65;
   }
 
   /**
