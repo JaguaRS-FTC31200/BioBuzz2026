@@ -50,10 +50,12 @@ public class RobotContainer extends RobotContainerInternal {
         .onFalse(drivetrain::stop);
 
     // intake controls: X to turn on/off
-    driver.x().onTrue(intake::activate).onFalse(intake::deactivate);
+      driver.x().onTrue(()-> intake.activate(false)).onFalse(intake::deactivate);
+      driver.b().onTrue(()-> intake.activate(true)).onFalse(intake::deactivate);
 
     // Shooter Controls
     driver.rightTrigger().whileTrue(shooter::spinUp).onFalse(shooter::stopShooter);
+    driver.leftTrigger().whileTrue(() -> shooter.runMotorPower(-0.5)).onFalse(shooter::stopShooter);
 
     // Conveyor controls Bumper left to let ball off; Bumber right to Take balls in.
     driver
