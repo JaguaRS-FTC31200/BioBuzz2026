@@ -51,7 +51,7 @@ public class Constants {
     public static final boolean IS_INVERTED1 = false;
 
     /** Velocidade alvo que o motor tentará alcançar (ticks/seg). */
-    public static int TARGET_VELOCITY = 1250;
+    public static int TARGET_VELOCITY = 1220;
 
     /** Coeficientes de ajuste do controlador PID. */
     @Config

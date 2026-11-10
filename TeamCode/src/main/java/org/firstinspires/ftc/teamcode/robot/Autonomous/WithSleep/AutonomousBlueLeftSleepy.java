@@ -1,16 +1,17 @@
-package org.firstinspires.ftc.teamcode.robot;
+package org.firstinspires.ftc.teamcode.robot.Autonomous.WithSleep;
 
 import Ori.Coval.Logging.Logger.KoalaLog;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.core.lib.gamepad.Trigger;
+import org.firstinspires.ftc.teamcode.robot.Constants;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Conveyor;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.robot.subsystems.Shooter;
 
-@Autonomous()
-public class LinearOpMode extends com.qualcomm.robotcore.eventloop.opmode.LinearOpMode {
+@Autonomous(group = "Autonomous COM Sleep", name = "Aliança azul SLEEPY | robo no lado ESQUERDO")
+public class AutonomousBlueLeftSleepy extends com.qualcomm.robotcore.eventloop.opmode.LinearOpMode {
   private Shooter shooter;
   private Conveyor conveyor;
   private Intake intake;
@@ -40,7 +41,7 @@ public class LinearOpMode extends com.qualcomm.robotcore.eventloop.opmode.Linear
 
     waitForStart();
     andado = new Trigger(() -> runtime.milliseconds() > Constants.Timings.TIME_TO_WALK_IN_MS);
-    //    sleep(20123);
+    sleep(20123);
     stopOpMode = new Trigger(() -> runtime.seconds() > 7);
     intake.setIntakePower(0.6);
     KoalaLog.start();
@@ -52,11 +53,10 @@ public class LinearOpMode extends com.qualcomm.robotcore.eventloop.opmode.Linear
   }
 
   private void execute() {
-    //    sleep(20123);
     intake.activate(false);
     andado.whileFalse(
         () -> {
-          //          drivetrain.drive(0.45, 0, 0);
+          drivetrain.drive(0.45, 0, 0);
         });
     andado.whileTrue(
         () -> {
@@ -65,7 +65,7 @@ public class LinearOpMode extends com.qualcomm.robotcore.eventloop.opmode.Linear
         });
     stopOpMode.onTrue(
         () -> {
-          //          drivetrain.drive(0, -0.67, 0);
+          drivetrain.drive(0, 0.67, 0);
           shooter.stop();
           intake.stop();
           conveyor.stop();
@@ -78,12 +78,12 @@ public class LinearOpMode extends com.qualcomm.robotcore.eventloop.opmode.Linear
     shooter.execute();
     shooter.spinUp();
     while (!shooter.readyToShoot() && opModeIsActive()) {
-//      System.out.println("Error: " + shooter.getPIDError());
+      //      System.out.println("Error: " + shooter.getPIDError());
       shooter.execute();
     }
 
-//    System.out.println("Error: " + shooter.getPIDError());
-//    if (shoow
+    //    System.out.println("Error: " + shooter.getPIDError());
+    //    if (shoow
 
     conveyor.startMotor();
   }
