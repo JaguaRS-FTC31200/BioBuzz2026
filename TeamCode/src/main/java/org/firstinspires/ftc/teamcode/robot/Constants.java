@@ -7,7 +7,7 @@ public class Constants {
   @Config
   public static class Intake {
     public static final String MOTOR_NAME = "intake_motor";
-    public static double INTAKE_POWER = 0.65;
+    public static double INTAKE_POWER = 0.976;
   }
 
   /**
@@ -71,5 +71,10 @@ public class Constants {
        */
       public static double kF = 0.05;
     }
+  }
+
+  @Config
+  public static class Timings {
+    public static int TIME_TO_WALK_IN_MS = 500;
   }
 }

@@ -50,26 +50,29 @@ public class RobotContainer extends RobotContainerInternal {
         .onFalse(drivetrain::stop);
 
     // intake controls: X to turn on/off
-    driver.x().onTrue(() -> intake.activate(false)).onFalse(intake::deactivate);
-    driver.b().onTrue(() -> intake.activate(true)).onFalse(intake::deactivate);
+    operator.x().onTrue(() -> intake.activate(false)).onFalse(intake::deactivate);
+    operator.b().onTrue(() -> intake.activate(true)).onFalse(intake::deactivate);
 
     // Shooter Controls
-    driver.rightTrigger().whileTrue(shooter::spinUp).onFalse(shooter::stopShooter);
-    driver.leftTrigger().whileTrue(() -> shooter.runMotorPower(-1.0)).onFalse(shooter::stopShooter);
+    operator.rightTrigger().whileTrue(shooter::spinUp).onFalse(shooter::stopShooter);
+    operator
+        .leftTrigger()
+        .whileTrue(() -> shooter.runMotorPower(-1.0))
+        .onFalse(shooter::stopShooter);
 
     // Conveyor controls Bumper left to let ball off; Bumber right to Take balls in.
-    driver
+    operator
         .leftBumper()
-        .and(driver.rightBumper().negate())
+        .and(operator.rightBumper().negate())
         .whileTrue(
             () -> {
               conveyor.startMotor();
               conveyor.setDirection(-1);
             })
         .onFalse(conveyor::stopMotor);
-    driver
+    operator
         .rightBumper()
-        .and(driver.leftBumper().negate())
+        .and(operator.leftBumper().negate())
         .whileTrue(
             () -> {
               conveyor.startMotor();

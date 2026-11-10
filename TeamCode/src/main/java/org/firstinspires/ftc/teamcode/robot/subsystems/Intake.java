@@ -10,6 +10,8 @@ public class Intake implements Subsystem {
   private static Intake instance;
   private DcMotor intake_motor;
 
+  private double intakePower = Constants.Intake.INTAKE_POWER;
+
   @Override
   public void initialize(HardwareMap hardwareMap) {
 
@@ -28,12 +30,16 @@ public class Intake implements Subsystem {
 
   public void activate(boolean reverse) {
 
-    intake_motor.setPower(reverse ? -Constants.Intake.INTAKE_POWER : Constants.Intake.INTAKE_POWER);
+    intake_motor.setPower(reverse ? -intakePower : intakePower);
   }
 
   public void deactivate() {
 
     intake_motor.setPower(0);
+  }
+
+  public void setIntakePower(double power) {
+    intakePower = power;
   }
 
   public static Intake getInstance() {

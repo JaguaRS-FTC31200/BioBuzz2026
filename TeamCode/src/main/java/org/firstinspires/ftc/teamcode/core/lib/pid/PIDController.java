@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.core.lib.pid;
 
+import Ori.Coval.Logging.Logger.KoalaLog;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -61,6 +62,8 @@ public class PIDController {
   private double lastOutput = 0;
   // NaN signals "no target planned yet" and avoids direct double equality checks.
   private double lastTarget = Double.NaN;
+
+  private double currentError = 0;
 
   private final ElapsedTime timer = new ElapsedTime();
 
@@ -254,7 +257,16 @@ public class PIDController {
     output = applyVoltageCompensation(output);
 
     lastOutput = output;
+
+    KoalaLog.log("Shooter PID Error", error, true);
+
+    currentError = error;
+
     return output;
+  }
+
+  public double getCurrentError() {
+    return currentError;
   }
 
   /**

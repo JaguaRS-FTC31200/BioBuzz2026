@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.robot.subsystems;
 
+import Ori.Coval.Logging.Logger.KoalaLog;
 import com.qualcomm.robotcore.hardware.*;
 import org.firstinspires.ftc.teamcode.core.lib.interfaces.Subsystem;
 import org.firstinspires.ftc.teamcode.core.lib.pid.PIDController;
@@ -75,10 +76,10 @@ public class Shooter implements Subsystem {
       double currentVelocity = motor1.getVelocity();
       double power = pidController.calculate(Constants.Shooter.TARGET_VELOCITY, currentVelocity);
       motor1.setPower(power);
-
     } else {
       motor1.setPower(0);
     }
+    KoalaLog.log("Shooter Speed", getCurrentRPM(), true);
   }
 
   /** Reseta o estado quando o OpMode inicia */
@@ -93,5 +94,17 @@ public class Shooter implements Subsystem {
   public void stop() {
     shooterIsActive = false;
     motor1.setPower(0);
+  }
+
+  public double getCurrentRPM() {
+    return (motor1.getVelocity() / 28.0) * 60.0;
+  }
+
+  public double getPIDError() {
+    return pidController.getCurrentError();
+  }
+
+  public boolean readyToShoot() {
+    return Math.abs(getCurrentRPM()) >= Constants.Shooter.TARGET_VELOCITY;
   }
 }
